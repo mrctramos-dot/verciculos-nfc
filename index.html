@@ -347,15 +347,15 @@ function toggleMusic() {
   if (music.paused) {
 
     music.volume = 0.18;
-
+    
+music.currentTime = 0;
     music.play()
       .then(() => {
         musicButton.innerText = '⏸️ Pausar Música';
       })
       .catch(error => {
-        alert('El navegador bloqueó la música. Tocá otra vez.');
-        console.log(error);
-      });
+  console.log('Autoplay bloqueado por el navegador');
+});
 
   } else {
 

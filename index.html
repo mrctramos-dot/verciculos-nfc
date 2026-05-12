@@ -50,18 +50,13 @@
       border: 1px solid rgba(255,255,255,0.15);
       box-shadow: 0 8px 30px rgba(0,0,0,0.35);
       backdrop-filter: blur(10px);
+      transition: opacity 0.3s ease;
       animation: fadeIn 1s ease;
     }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from {opacity:0; transform: translateY(20px);}
+      to {opacity:1; transform: translateY(0);}
     }
 
     .title {
@@ -69,7 +64,6 @@
       font-family: 'Playfair Display', serif;
       margin-bottom: 20px;
       color: #ffe8a3;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
     .category {
@@ -79,14 +73,12 @@
       border-radius: 999px;
       background: rgba(255,255,255,0.15);
       font-size: 0.9rem;
-      letter-spacing: 1px;
     }
 
     .verse {
-      font-size: 1.5rem;
-      line-height: 1.8;
+      font-size: 1.7rem;
+      line-height: 1.9;
       margin-bottom: 25px;
-      font-weight: 400;
     }
 
     .reference {
@@ -105,12 +97,18 @@
 
     button {
       border: none;
-      padding: 14px 22px;
-      border-radius: 14px;
+      padding: 15px 24px;
+      border-radius: 18px;
       font-size: 1rem;
       cursor: pointer;
-      transition: 0.3s;
+      transition: all 0.3s ease;
       font-weight: 600;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+    }
+
+    button:hover {
+      transform: translateY(-3px) scale(1.03);
     }
 
     .new-btn {
@@ -118,18 +116,10 @@
       color: #222;
     }
 
-    .new-btn:hover {
-      transform: scale(1.05);
-    }
-
     .music-btn {
       background: rgba(255,255,255,0.15);
       color: white;
       border: 1px solid rgba(255,255,255,0.2);
-    }
-
-    .music-btn:hover {
-      background: rgba(255,255,255,0.25);
     }
 
     .footer {
@@ -139,235 +129,112 @@
     }
 
     @media (max-width: 600px) {
-      .title {
-        font-size: 1.9rem;
-      }
-
-      .verse {
-        font-size: 1.2rem;
-      }
-
-      .card {
-        padding: 30px 20px;
-      }
+      .title {font-size: 1.9rem;}
+      .verse {font-size: 1.2rem;}
+      .card {padding: 30px 20px;}
     }
   </style>
 </head>
+
 <body>
 
-  <div class="overlay"></div>
+<div class="overlay"></div>
 
-  <div class="card">
-    <h1 class="title">Versículo para Ti ✨</h1>
+<div class="card">
+  <h1 class="title">Versículo para Ti ✨</h1>
 
-    <div class="category" id="category">PROMESA</div>
+  <div class="category" id="category">PROMESA</div>
+  <div class="verse" id="verse"></div>
+  <div class="reference" id="reference"></div>
 
-    <div class="verse" id="verse"></div>
-
-    <div class="reference" id="reference"></div>
-
-    <div class="buttons">
-      <button class="new-btn" onclick="showRandomVerse()">
-        Nuevo Versículo
-      </button>
-
-      <button class="music-btn" onclick="toggleMusic()" id="musicButton">
-        ▶️ Música
-      </button>
-    </div>
-
-    <div class="footer">
-      Dios tiene una palabra para ti cada momento EAGC ❤️
-    </div>
+  <div class="buttons">
+    <button class="new-btn" onclick="showRandomVerse()">Nuevo Versículo</button>
+    <button class="music-btn" onclick="toggleMusic()" id="musicButton">▶️ Música</button>
   </div>
+
+  <div class="footer">
+    Dios tiene una palabra para ti cada momento ❤️
+  </div>
+</div>
 
 <audio id="bgMusic" loop>
   <source src="HD Cuerdas de amor Pista Karaoke Julio Melgar Tonalidad - E.mp3" type="audio/mpeg">
 </audio>
 
-  <script>
+<script>
 
-    const verses = [
-      {
-        category: 'FORTALEZA',
-        text: 'Todo lo puedo en Cristo que me fortalece.',
-        reference: 'Filipenses 4:13'
-      },
-      {
-        category: 'PROMESA',
-        text: 'Porque yo sé los planes que tengo para ustedes, planes de bienestar y no de calamidad.',
-        reference: 'Jeremías 29:11'
-      },
-      {
-        category: 'PAZ',
-        text: 'No se angustien por nada, sino presenten sus peticiones a Dios.',
-        reference: 'Filipenses 4:6'
-      },
-      {
-        category: 'AMOR',
-        text: 'El amor es paciente, es bondadoso. El amor nunca deja de ser.',
-        reference: '1 Corintios 13:4'
-      },
-      {
-        category: 'ÁNIMO',
-        text: 'No temas, porque yo estoy contigo; no desmayes, porque yo soy tu Dios.',
-        reference: 'Isaías 41:10'
-      },
-      {
-        category: 'ESPERANZA',
-        text: 'Dios es nuestro refugio y nuestra fuerza, siempre está dispuesto a ayudar.',
-        reference: 'Salmos 46:1'
-      },
-      {
-        category: 'MOTIVACIÓN',
-        text: 'Levántate y resplandece, porque ha venido tu luz.',
-        reference: 'Isaías 60:1'
-      },
-      {
-        category: 'FE',
-        text: 'Para Dios no hay nada imposible.',
-        reference: 'Lucas 1:37'
-       },
-        {
-  category: 'ESPERANZA',
-  text: 'Porque nada hay imposible para Dios.',
-  reference: 'Lucas 1:37'
-},
-{
-  category: 'FE',
-  text: 'Confía en Jehová con todo tu corazón y no te apoyes en tu propia prudencia.',
-  reference: 'Proverbios 3:5'
-},
-{
-  category: 'FORTALEZA',
-  text: 'Jehová peleará por vosotros, y vosotros estaréis tranquilos.',
-  reference: 'Éxodo 14:14'
-},
-{
-  category: 'PAZ',
-  text: 'La paz de Dios, que sobrepasa todo entendimiento, guardará sus corazones.',
-  reference: 'Filipenses 4:7'
-},
-{
-  category: 'AMOR',
-  text: 'Sobre todas estas cosas vestíos de amor, que es el vínculo perfecto.',
-  reference: 'Colosenses 3:14'
-},
-{
-  category: 'ÁNIMO',
-  text: 'Esfuérzate y sé valiente; no temas ni desmayes.',
-  reference: 'Josué 1:9'
-},
-{
-  category: 'PROMESA',
-  text: 'Clama a mí y yo te responderé.',
-  reference: 'Jeremías 33:3'
-},
-{
-  category: 'CONSUELO',
-  text: 'Cercano está Jehová a los quebrantados de corazón.',
-  reference: 'Salmos 34:18'
-},
-{
-  category: 'MOTIVACIÓN',
-  text: 'Todo tiene su tiempo, y todo lo que se quiere debajo del cielo tiene su hora.',
-  reference: 'Eclesiastés 3:1'
-},
-{
-  category: 'GOZO',
-  text: 'Este es el día que hizo Jehová; nos gozaremos y alegraremos en él.',
-  reference: 'Salmos 118:24'
-},
-{
-  category: 'ESPERANZA',
-  text: 'Los que esperan en Jehová tendrán nuevas fuerzas.',
-  reference: 'Isaías 40:31'
-},
-{
-  category: 'AMOR',
-  text: 'Nosotros le amamos a él, porque él nos amó primero.',
-  reference: '1 Juan 4:19'
-},
-{
-  category: 'PAZ',
-  text: 'Estad quietos, y conoced que yo soy Dios.',
-  reference: 'Salmos 46:10'
-},
-{
-  category: 'FORTALEZA',
-  text: 'Mi gracia es suficiente para ti, porque mi poder se perfecciona en la debilidad.',
-  reference: '2 Corintios 12:9'
-},
-{
-  category: 'FE',
-  text: 'Porque por fe andamos, no por vista.',
-  reference: '2 Corintios 5:7'
-},
-{
-  category: 'PROMESA',
-  text: 'Nunca te dejaré ni te abandonaré.',
-  reference: 'Hebreos 13:5'
-},
-{
-  category: 'CONSUELO',
-  text: 'Venid a mí todos los que estáis trabajados y cargados, y yo os haré descansar.',
-  reference: 'Mateo 11:28'
-},
-{
-  category: 'MOTIVACIÓN',
-  text: 'Todo lo puedo en Cristo que me fortalece.',
-  reference: 'Filipenses 4:13'
-      }
-    ];
+const verses = [
+  { category:'FORTALEZA', text:'Todo lo puedo en Cristo que me fortalece.', reference:'Filipenses 4:13' },
+  { category:'PROMESA', text:'Porque yo sé los planes que tengo para ustedes.', reference:'Jeremías 29:11' },
+  { category:'PAZ', text:'La paz de Dios guardará sus corazones.', reference:'Filipenses 4:7' },
+  { category:'AMOR', text:'El amor nunca deja de ser.', reference:'1 Corintios 13:8' },
+  { category:'ÁNIMO', text:'No temas, porque yo estoy contigo.', reference:'Isaías 41:10' },
+  { category:'ESPERANZA', text:'Dios es nuestro refugio y fortaleza.', reference:'Salmos 46:1' },
+  { category:'FE', text:'Nada hay imposible para Dios.', reference:'Lucas 1:37' },
+  { category:'CONSUELO', text:'Venid a mí y yo os haré descansar.', reference:'Mateo 11:28' },
+  { category:'MOTIVACIÓN', text:'Todo tiene su tiempo.', reference:'Eclesiastés 3:1' },
+  { category:'GOZO', text:'Este es el día que hizo Jehová.', reference:'Salmos 118:24' }
+];
 
-    const backgrounds = [
-      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?q=80&w=1600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1600&auto=format&fit=crop'
-    ];
+const backgrounds = [
+'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1600',
+'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600',
+'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600',
+'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?q=80&w=1600',
+'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1600',
+'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?q=80&w=1600',
+'https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=1600',
+'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?q=80&w=1600',
+'https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=1600',
+'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1600'
+];
 
-    function showRandomVerse() {
-      const randomVerse = verses[Math.floor(Math.random() * verses.length)];
-      const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+function showRandomVerse() {
 
-      document.getElementById('verse').innerText = `“${randomVerse.text}”`;
-      document.getElementById('reference').innerText = randomVerse.reference;
-      document.getElementById('category').innerText = randomVerse.category;
+  const card = document.querySelector('.card');
+  card.style.opacity = '0';
 
-      document.body.style.backgroundImage = `url('${randomBg}')`;
-    }
+  setTimeout(() => {
 
-    const music = document.getElementById('bgMusic');
-    const musicButton = document.getElementById('musicButton');
+    const v = verses[Math.floor(Math.random()*verses.length)];
+    const bg = backgrounds[Math.floor(Math.random()*backgrounds.length)];
+
+    document.getElementById('verse').innerText = `"${v.text}"`;
+    document.getElementById('reference').innerText = v.reference;
+    document.getElementById('category').innerText = v.category;
+
+    document.body.style.backgroundImage = `url('${bg}')`;
+
+    card.style.opacity = '1';
+
+  }, 300);
+}
+
+const music = document.getElementById('bgMusic');
+const musicButton = document.getElementById('musicButton');
 
 function toggleMusic() {
 
   if (music.paused) {
 
     music.volume = 0.18;
-    
-music.currentTime = 0;
-    music.play()
-      .then(() => {
-        musicButton.innerText = '⏸️ Pausar Música';
-      })
-      .catch(error => {
-  console.log('Autoplay bloqueado por el navegador');
-});
+    music.currentTime = 0;
+
+    music.play().then(() => {
+      musicButton.innerText = '⏸️ Pausar Música';
+    }).catch(() => {
+      console.log('Bloqueado por navegador');
+    });
 
   } else {
-
     music.pause();
     musicButton.innerText = '▶️ Música';
-
   }
 }
 
-    showRandomVerse();
+showRandomVerse();
 
-  </script>
+</script>
 
 </body>
 </html>

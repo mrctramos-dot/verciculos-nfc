@@ -196,6 +196,26 @@ const verses = [
   { category:'PROMESA', text:'Nunca te dejaré ni te desampararé, estaré contigo todos los días hasta el fin.', reference:'Hebreos 13:5' },
   { category:'MOTIVACIÓN', text:'Corramos con paciencia la carrera que tenemos por delante, puestos los ojos en Jesús.', reference:'Hebreos 12:1-2' },
   { category:'GOZO', text:'El gozo del Señor es vuestra fuerza, aun en medio de la prueba.', reference:'Nehemías 8:10' }
+
+  function getDailyVerse() {
+  const today = new Date().toISOString().split("T")[0];
+
+  let hash = 0;
+  for (let i = 0; i < today.length; i++) {
+    hash = today.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  const index = Math.abs(hash) % verses.length;
+  return verses[index];
+}
+
+// 👇 OBTENER VERSÍCULO
+const verse = getDailyVerse();
+
+// 👇 MOSTRAR EN HTML (ESTO ES LO QUE TE FALTABA)
+document.getElementById("category").innerText = verse.category;
+document.getElementById("text").innerText = verse.text;
+document.getElementById("reference").innerText = verse.reference;
 ];
 ];
 

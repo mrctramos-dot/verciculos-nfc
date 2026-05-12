@@ -181,9 +181,9 @@
     </div>
   </div>
 
-  <audio id="bgMusic" loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8d600878e.mp3?filename=soft-piano-ambient-110624.mp3" type="audio/mp3">
-  </audio>
+<audio id="bgMusic" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
 
   <script>
 
@@ -252,15 +252,28 @@
     const music = document.getElementById('bgMusic');
     const musicButton = document.getElementById('musicButton');
 
-    function toggleMusic() {
-      if (music.paused) {
-        music.play();
+function toggleMusic() {
+
+  if (music.paused) {
+
+    music.volume = 0.4;
+
+    music.play()
+      .then(() => {
         musicButton.innerText = '⏸️ Pausar Música';
-      } else {
-        music.pause();
-        musicButton.innerText = '▶️ Música';
-      }
-    }
+      })
+      .catch(error => {
+        alert('El navegador bloqueó la música. Tocá otra vez.');
+        console.log(error);
+      });
+
+  } else {
+
+    music.pause();
+    musicButton.innerText = '▶️ Música';
+
+  }
+}
 
     showRandomVerse();
 

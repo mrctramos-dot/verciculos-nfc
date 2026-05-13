@@ -448,7 +448,6 @@ const backgrounds = [
 'https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=1600',
 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1600'
 ];
-let currentVerse = null;
   
 function showRandomVerse() {
 
@@ -474,9 +473,28 @@ function showRandomVerse() {
 
 const music = document.getElementById('bgMusic');
 const musicButton = document.getElementById('musicButton');
-  let currentVerse = null;
 
 function toggleMusic() {
+
+  if (music.paused) {
+
+    music.volume = 0.25;
+    music.currentTime = 0;
+
+    music.play().then(() => {
+      musicButton.innerText = '⏸️ Pausar Música';
+    }).catch(() => {
+      console.log('Bloqueado por navegador');
+    });
+
+  } else {
+
+    music.pause();
+    musicButton.innerText = '▶️ Música';
+
+  }
+}
+
 function saveFavorite() {
 
   if (!currentVerse) {
@@ -533,24 +551,6 @@ function showFavorites() {
   document.getElementById('category').innerText =
     randomFavorite.category;
 }
-  if (music.paused) {
-
-    music.volume = 0.25;
-    music.currentTime = 0;
-
-    music.play().then(() => {
-      musicButton.innerText = '⏸️ Pausar Música';
-    }).catch(() => {
-      console.log('Bloqueado por navegador');
-    });
-
-  } else {
-    music.pause();
-    musicButton.innerText = '▶️ Música';
-  }
-}
-
-showRandomVerse();
 
 </script>
 

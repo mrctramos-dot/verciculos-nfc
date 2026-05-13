@@ -215,18 +215,18 @@
   <div class="reference" id="reference"></div>
 
 <div class="buttons">
-  <button class="new-btn" onclick="showRandomVerse()">✨</button>
+  <button class="new-btn" onclick="showRandomVerse()">Nuevo Versículo</button>
 
   <button class="music-btn" onclick="toggleMusic()" id="musicButton">
-    ▶️
+    ▶️ Música
   </button>
 
   <button class="music-btn" onclick="saveFavorite()">
-    ❤️
+    ❤️ Guardar
   </button>
 
   <button class="music-btn" onclick="showFavorites()">
-    📖
+    📖 Favoritos
   </button>
 </div>
 
@@ -587,7 +587,7 @@ function toggleMusic() {
     music.play().then(() => {
 
       musicButton.innerText =
-        '⏸️';
+        '⏸️ Pausa';
 
     }).catch(() => {
 
@@ -600,7 +600,7 @@ function toggleMusic() {
     music.pause();
 
     musicButton.innerText =
-      '▶️';
+      '▶️ Música';
 
   }
 }

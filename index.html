@@ -530,51 +530,74 @@ const backgrounds = [
 'https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=1600',
 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1600'
 ];
-  
-window.onload = () => {
-  showRandomVerse();
-};
+ function showRandomVerse() {
 
   const card = document.querySelector('.card');
+
   card.style.opacity = '0';
 
   setTimeout(() => {
 
-    const v = verses[Math.floor(Math.random()*verses.length)];
+    const v =
+      verses[Math.floor(Math.random() * verses.length)];
+
     currentVerse = v;
-    const bg = backgrounds[Math.floor(Math.random()*backgrounds.length)];
 
-    document.getElementById('verse').innerText = `"${v.text}"`;
-    document.getElementById('reference').innerText = v.reference;
-    document.getElementById('category').innerText = v.category;
+    const bg =
+      backgrounds[Math.floor(Math.random() * backgrounds.length)];
 
-    document.body.style.backgroundImage = `url('${bg}')`;
+    document.getElementById('verse').innerText =
+      `"${v.text}"`;
+
+    document.getElementById('reference').innerText =
+      v.reference;
+
+    document.getElementById('category').innerText =
+      v.category;
+
+    document.body.style.backgroundImage =
+      `url('${bg}')`;
 
     card.style.opacity = '1';
 
   }, 300);
 }
 
-const music = document.getElementById('bgMusic');
-const musicButton = document.getElementById('musicButton');
+window.onload = () => {
+
+  showRandomVerse();
+
+};
+
+const music =
+  document.getElementById('bgMusic');
+
+const musicButton =
+  document.getElementById('musicButton');
 
 function toggleMusic() {
 
   if (music.paused) {
 
     music.volume = 0.25;
-    music.currentTime = 0;
 
     music.play().then(() => {
-      musicButton.innerText = '⏸️ Pausar Música';
+
+      musicButton.innerText =
+        '⏸️ Pausar Música';
+
     }).catch(() => {
-      console.log('Bloqueado por navegador');
+
+      console.log('Bloqueado');
+
     });
 
   } else {
 
     music.pause();
-    musicButton.innerText = '▶️ Música';
+
+    musicButton.innerText =
+      '▶️ Música';
 
   }
 }
@@ -582,16 +605,17 @@ function toggleMusic() {
 function saveFavorite() {
 
   if (!currentVerse) {
+
     alert('Primero carga un versículo');
     return;
+
   }
 
   let favorites =
     JSON.parse(localStorage.getItem('favorites')) || [];
 
-  const exists = favorites.some(f =>
-    f.text === currentVerse.text
-  );
+  const exists =
+    favorites.some(f => f.text === currentVerse.text);
 
   if (!exists) {
 
@@ -612,11 +636,55 @@ function saveFavorite() {
 }
 
 function showFavorites() {
+
+  let favorites =
+    JSON.parse(localStorage.getItem('favorites')) || [];
+
+  const favoritesList =
+    document.getElementById('favoritesList');
+
+  favoritesList.innerHTML = '';
+
+  if (favorites.length === 0) {
+
+    favoritesList.innerHTML =
+      '<p>No tienes versículos guardados ❤️</p>';
+
+  } else {
+
+    favorites.forEach((v, index) => {
+
+      favoritesList.innerHTML += `
+        <div class="favorite-item"
+             onclick="loadFavorite(${index})">
+
+          <div class="favorite-category">
+            ${v.category}
+          </div>
+
+          <div class="favorite-text">
+            "${v.text}"
+          </div>
+
+          <div class="favorite-reference">
+            ${v.reference}
+          </div>
+
+        </div>
+      `;
+
+    });
+
+  }
+
+  document.getElementById('favoritesPanel')
+    .style.display = 'flex';
+}
+
 function closeFavorites() {
 
-  document.getElementById(
-    'favoritesPanel'
-  ).style.display = 'none';
+  document.getElementById('favoritesPanel')
+    .style.display = 'none';
 }
 
 function loadFavorite(index) {
@@ -638,45 +706,12 @@ function loadFavorite(index) {
     fav.category;
 
   closeFavorites();
-}
-  let favorites =
-    JSON.parse(localStorage.getItem('favorites')) || [];
+} 
+<script>
 
-  const favoritesList =
-    document.getElementById('favoritesList');
+let currentVerse = null;
 
-  favoritesList.innerHTML = '';
-
-  if (favorites.length === 0) {
-
-    favoritesList.innerHTML =
-      '<p>No tienes versículos guardados ❤️</p>';
-
-  } else {
-
-    favorites.forEach(v => {
-
-      favoritesList.innerHTML += `
-        <div class="favorite-item">
-          <div class="favorite-category">${v.category}</div>
-          <div class="favorite-text">"${v.text}"</div>
-          <div class="favorite-reference">${v.reference}</div>
-        </div>
-      `;
-
-    });
-  }
-
-  document.getElementById('favoritesModal')
-    .style.display = 'flex';
-}
-
-function closeFavorites() {
-
-  document.getElementById('favoritesModal')
-    .style.display = 'none';
-}
-
+const verses = [
 </script>
 
 </body>

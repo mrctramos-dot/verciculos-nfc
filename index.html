@@ -127,7 +127,74 @@
       font-size: 0.9rem;
       opacity: 0.8;
     }
+.favorites-panel {
 
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  padding: 20px;
+}
+
+.favorites-content {
+
+  width: 100%;
+  max-width: 700px;
+  max-height: 80vh;
+  overflow-y: auto;
+
+  background: rgba(20,20,20,0.95);
+  border-radius: 25px;
+  padding: 25px;
+
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.favorites-content h2 {
+
+  margin-bottom: 20px;
+  color: #ffe8a3;
+}
+
+.favorite-item {
+
+  background: rgba(255,255,255,0.08);
+  padding: 18px;
+  border-radius: 18px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.favorite-item:hover {
+
+  background: rgba(255,255,255,0.15);
+  transform: scale(1.02);
+}
+
+.favorite-category {
+
+  color: #ffe8a3;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+.favorite-reference {
+
+  margin-top: 10px;
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+.close-btn {
+
+  margin-top: 15px;
+  background: #ffe8a3;
+  color: #222;
+}
     @media (max-width: 600px) {
       .title {font-size: 1.9rem;}
       .verse {font-size: 1.2rem;}
@@ -167,7 +234,22 @@
     Dios tiene una palabra para ti cada momento EAGC ❤️
   </div>
 </div>
+<!-- PANEL FAVORITOS -->
+<div id="favoritesPanel" class="favorites-panel">
 
+  <div class="favorites-content">
+
+    <h2>📖 Versículos Guardados</h2>
+
+    <div id="favoritesList"></div>
+
+    <button class="close-btn" onclick="closeFavorites()">
+      Cerrar
+    </button>
+
+  </div>
+
+</div>
 <audio id="bgMusic" loop>
   <source src="HD  Cuerdas de amor  Pista  Karaoke  Julio Melgar  Tonalidad - E.mp3" type="audio/mpeg">
 </audio>
@@ -449,7 +531,9 @@ const backgrounds = [
 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1600'
 ];
   
-function showRandomVerse() {
+window.onload = () => {
+  showRandomVerse();
+};
 
   const card = document.querySelector('.card');
   card.style.opacity = '0';
@@ -528,28 +612,69 @@ function saveFavorite() {
 }
 
 function showFavorites() {
+function closeFavorites() {
+
+  document.getElementById(
+    'favoritesPanel'
+  ).style.display = 'none';
+}
+
+function loadFavorite(index) {
 
   let favorites =
     JSON.parse(localStorage.getItem('favorites')) || [];
 
-  if (favorites.length === 0) {
+  const fav = favorites[index];
 
-    alert('No tienes versículos guardados');
-    return;
-
-  }
-
-  const randomFavorite =
-    favorites[Math.floor(Math.random() * favorites.length)];
+  currentVerse = fav;
 
   document.getElementById('verse').innerText =
-    `"${randomFavorite.text}"`;
+    `"${fav.text}"`;
 
   document.getElementById('reference').innerText =
-    randomFavorite.reference;
+    fav.reference;
 
   document.getElementById('category').innerText =
-    randomFavorite.category;
+    fav.category;
+
+  closeFavorites();
+}
+  let favorites =
+    JSON.parse(localStorage.getItem('favorites')) || [];
+
+  const favoritesList =
+    document.getElementById('favoritesList');
+
+  favoritesList.innerHTML = '';
+
+  if (favorites.length === 0) {
+
+    favoritesList.innerHTML =
+      '<p>No tienes versículos guardados ❤️</p>';
+
+  } else {
+
+    favorites.forEach(v => {
+
+      favoritesList.innerHTML += `
+        <div class="favorite-item">
+          <div class="favorite-category">${v.category}</div>
+          <div class="favorite-text">"${v.text}"</div>
+          <div class="favorite-reference">${v.reference}</div>
+        </div>
+      `;
+
+    });
+  }
+
+  document.getElementById('favoritesModal')
+    .style.display = 'flex';
+}
+
+function closeFavorites() {
+
+  document.getElementById('favoritesModal')
+    .style.display = 'none';
 }
 
 </script>

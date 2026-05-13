@@ -448,7 +448,8 @@ const backgrounds = [
 'https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=1600',
 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1600'
 ];
-
+let currentVerse = null;
+  
 function showRandomVerse() {
 
   const card = document.querySelector('.card');
@@ -476,33 +477,48 @@ const musicButton = document.getElementById('musicButton');
   let currentVerse = null;
 
 function toggleMusic() {
-  function saveFavorite() {
+function saveFavorite() {
 
-  if (!currentVerse) return;
+  if (!currentVerse) {
+    alert('Primero carga un versículo');
+    return;
+  }
 
-  let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+  let favorites =
+    JSON.parse(localStorage.getItem('favorites')) || [];
 
   const exists = favorites.some(f =>
     f.text === currentVerse.text
   );
 
   if (!exists) {
+
     favorites.push(currentVerse);
-    localStorage.setItem('favorites', JSON.stringify(favorites));
+
+    localStorage.setItem(
+      'favorites',
+      JSON.stringify(favorites)
+    );
 
     alert('❤️ Versículo guardado');
+
   } else {
+
     alert('📖 Ya estaba guardado');
+
   }
 }
 
 function showFavorites() {
 
-  let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+  let favorites =
+    JSON.parse(localStorage.getItem('favorites')) || [];
 
   if (favorites.length === 0) {
+
     alert('No tienes versículos guardados');
     return;
+
   }
 
   const randomFavorite =
@@ -517,7 +533,6 @@ function showFavorites() {
   document.getElementById('category').innerText =
     randomFavorite.category;
 }
-
   if (music.paused) {
 
     music.volume = 0.25;
